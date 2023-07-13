@@ -32,11 +32,11 @@ employeeRouter.get('/',async (req, res) => {
  if(department!==""){
     dep.Department = department
  }
- 
+ let employees;
  if(department === ""){
-  const employees = await employeeModel.find().skip(startIndex).limit(limit);
+   employees = await employeeModel.find().skip(startIndex).limit(limit);
  }else{
-  const employees = await employeeModel.find(dep).skip(startIndex).limit(endIndex)
+   employees = await employeeModel.find(dep).skip(startIndex).limit(limit)
  }
   const totalItems = await employeeModel.countDocuments();
 
