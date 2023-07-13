@@ -49,8 +49,9 @@ employeeRouter.get('/filterbydep',async (req, res) => {
     dep.Department = department
  }
  
-  const employees = await employeeModel.find(dep).skip(startIndex).limit(endIndex)
-  const totalItems = await employeeModel.countDocuments();
+  const employees = await employeeModel.find(dep).skip(startIndex).limit(limit)
+  const totalItems = employees.length;
+
 
     const totalPages = Math.ceil(totalItems / limit);
 
