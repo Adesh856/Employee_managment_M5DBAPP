@@ -76,8 +76,8 @@ employeeRouter.get('/searchbyname',async (req, res) => {
   }
 
 
-  const employees = await employeeModel.find(searchname).skip(startIndex).limit(endIndex)
-  const totalItems = await employeeModel.countDocuments();
+  const employees = await employeeModel.find(searchname).skip(startIndex).limit(limit)
+  const totalItems = await employeeModel.length;
 
     const totalPages = Math.ceil(totalItems / limit);
 
