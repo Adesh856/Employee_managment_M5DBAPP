@@ -106,7 +106,7 @@ employeeRouter.get('/sortbysalary',async (req, res) => {
      sort.Salary = -1
     }
   
-    const employees = await employeeModel.find().sort(sort).skip(startIndex).limit(endIndex)
+    const employees = await employeeModel.find().skip(startIndex).limit(endIndex).sort(sort)
     const totalItems = await employeeModel.countDocuments();
 
     const totalPages = Math.ceil(totalItems / limit);
