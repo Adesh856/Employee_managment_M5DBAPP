@@ -18,12 +18,13 @@ employeeRouter.post("/add",async(req,res)=>{
 
 //get all the emplooyes
 employeeRouter.get('/', async (req, res) => {
+  const {_id} = req.params
     try {
       const page = +(req.query.page) || 1;
       const limit = +(req.query.limit) || 5;
       const startIndex = (page - 1) * limit;
       
-      const employees = await employeeModel.find().skip(startIndex).limit(limit);
+      const employees = await employeeModel.find({_id}).skip(startIndex).limit(limit);
       const totalItems = await employeeModel.countDocuments();
 
     const totalPages = Math.ceil(totalItems / limit);
@@ -33,6 +34,16 @@ employeeRouter.get('/', async (req, res) => {
       res.status(401).send({ "msg": error.message });
     }
   });
+
+  employeeRouter.get("/getOneByID/:id",async(req,res)=>{
+    try {
+      const employee = await employeeModel.findOne({_id:req.params.id})
+      res.status(200).send({employee})
+    } catch (error) {
+      res.status(401).send({ "msg": error.message });
+      
+    }
+  })
 
 //filterbydepartment
 employeeRouter.get('/filterbydep',async (req, res) => {
