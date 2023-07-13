@@ -35,7 +35,7 @@ employeeRouter.get('/', async (req, res) => {
   });
 
 //filterbydepartment
-employeeRouter.get('/filterbydep',async (req, res) => {
+employeeRouter.get('/',async (req, res) => {
   try {
     const department = req.query.department||""
  
