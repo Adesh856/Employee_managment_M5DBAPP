@@ -16,10 +16,26 @@ employeeRouter.post("/add",async(req,res)=>{
 
 
 
+//get all the emplooyes
+employeeRouter.get('/', async (req, res) => {
+    try {
+      const page = +(req.query.page) || 1;
+      const limit = +(req.query.limit) || 5;
+      const startIndex = (page - 1) * limit;
+      
+      const employees = await employeeModel.find().skip(startIndex).limit(limit);
+      const totalItems = await employeeModel.countDocuments();
 
+    const totalPages = Math.ceil(totalItems / limit);
+
+      res.status(200).send({employees ,pageNumber:page,totalPages} );
+    } catch (error) {
+      res.status(401).send({ "msg": error.message });
+    }
+  });
 
 //filterbydepartment
-employeeRouter.get('/',async (req, res) => {
+employeeRouter.get('/filterbydep',async (req, res) => {
   try {
     const department = req.query.department||""
  
@@ -32,12 +48,8 @@ employeeRouter.get('/',async (req, res) => {
  if(department!==""){
     dep.Department = department
  }
- let employees;
- if(department === ""){
-   employees = await employeeModel.find().skip(startIndex).limit(limit);
- }else{
-   employees = await employeeModel.find(dep).skip(startIndex).limit(limit)
- }
+ 
+  const employees = await employeeModel.find(dep).skip(startIndex).limit(endIndex)
   const totalItems = await employeeModel.countDocuments();
 
     const totalPages = Math.ceil(totalItems / limit);
